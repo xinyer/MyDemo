@@ -1,21 +1,16 @@
 package com.wangxin.rfidreader;
 
-import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbEndpoint;
-import android.hardware.usb.UsbInterface;
-import android.hardware.usb.UsbManager;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Pair;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,9 +20,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final int VENDOR_ID = 2303;
-    private static final int PRODUCT_ID = 9;
-
     private static final int MSG_READ_OK = 1000;
     private static final int MSG_READ_TIME_OUT = 1001;
 
@@ -36,38 +28,19 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.tv_content)
     TextView mContentView;
 
-    UsbManager mUsbManager;
-    UsbDevice mUsbDevice;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mUsbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
     }
 
     @OnClick(R.id.btn_get_devices)
     public void getDeviceList() {
-        System.out.println("Thread name:"+Thread.currentThread().getName());
-        HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
-        Iterator<Map.Entry<String, UsbDevice>> it = deviceList.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry<String, UsbDevice> map = it.next();
-            String key = map.getKey();
-            UsbDevice usbDevice = map.getValue();
-            if (usbDevice.getVendorId() == VENDOR_ID && usbDevice.getProductId() == PRODUCT_ID) {
-                mUsbDevice = usbDevice;
-            }
-            System.out.println("key->" + key);
-            System.out.println(usbDevice);
-
-            mContentView.append("---------------------------------------------\n");
-            mContentView.append("key->" + key + "\n");
-            mContentView.append(usbDevice+"\n");
-            mContentView.append("---------------------------------------------\n");
-        }
+        System.out.println("Thread name:" + Thread.currentThread().getName());
+        UsbDevice device = USBDeviceHelper.checkUsbDevice(this);
+        mContentView.setText("" + device);
     }
 
     private Handler.Callback mCallback = new Handler.Callback() {
@@ -91,27 +64,24 @@ public class MainActivity extends AppCompatActivity {
 
     private Handler mHandler = new Handler(mCallback);
 
-
-    private static int TIMEOUT = 2000;
-    private boolean forceClaim = true;
-
     @OnClick(R.id.btn_communicate)
     public void communicate() {
-        getDeviceList();
-
-        if (mUsbDevice == null) {
-            return;
+        UsbDevice device = USBDeviceHelper.checkUsbDevice(this);
+        if (device != null) {
+            Pair<UsbEndpoint, UsbDeviceConnection> pair = USBDeviceHelper.connectUsbDevice(this, device);
+            if (pair != null) {
+                new TransferRunnable(pair.first, pair.second).start();
+            } else {
+                Log.d(TAG, "Usb device connection is fail.");
+            }
+        } else {
+            Log.d(TAG, "Usb device is null.");
         }
-
-        UsbInterface intf = mUsbDevice.getInterface(0);
-        UsbEndpoint endpoint = intf.getEndpoint(0);
-        UsbDeviceConnection connection = mUsbManager.openDevice(mUsbDevice);
-        connection.claimInterface(intf, forceClaim);
-
-        new Thread(new TransferRunnable(endpoint, connection)).start();
     }
 
-    class TransferRunnable implements Runnable {
+    private static int TIMEOUT = 2000;
+
+    class TransferRunnable extends Thread {
 
         UsbEndpoint endpoint;
         UsbDeviceConnection connection;
@@ -125,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void run() {
             System.out.println("-----run-----");
-            System.out.println("Thread name:"+Thread.currentThread().getName());
+            System.out.println("Thread name:" + Thread.currentThread().getName());
             connection.bulkTransfer(endpoint, bytes, bytes.length, TIMEOUT);
             if (isByteArrayEmpty(bytes)) {
                 System.out.println("-----bytes is empty.-----");
@@ -145,18 +115,18 @@ public class MainActivity extends AppCompatActivity {
                 bytes = new byte[64];
             }
         }
+    }
 
-        boolean isByteArrayEmpty(byte[] bytes) {
-            if (bytes==null) return true;
+    private boolean isByteArrayEmpty(byte[] bytes) {
+        if (bytes == null) return true;
 
-            for (byte b:bytes) {
-                if (b!=0) {
-                    return false;
-                }
+        for (byte b : bytes) {
+            if (b != 0) {
+                return false;
             }
-
-            return true;
         }
+
+        return true;
     }
 
     private String getText(byte[] bytes) {
