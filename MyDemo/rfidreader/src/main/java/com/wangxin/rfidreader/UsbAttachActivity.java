@@ -71,6 +71,12 @@ public class UsbAttachActivity extends AppCompatActivity {
     };
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mUsbReceiver);
