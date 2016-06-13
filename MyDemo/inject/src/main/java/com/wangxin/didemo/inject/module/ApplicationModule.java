@@ -1,12 +1,6 @@
-package com.wangxin.didemo.di;
+package com.wangxin.didemo.inject.module;
 
 import android.app.Application;
-import android.content.Context;
-
-import com.wangxin.didemo.BaseApplication;
-import com.wangxin.didemo.ToastUtil;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

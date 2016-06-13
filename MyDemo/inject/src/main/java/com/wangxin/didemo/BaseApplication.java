@@ -2,9 +2,9 @@ package com.wangxin.didemo;
 
 import android.app.Application;
 
-import com.wangxin.didemo.di.ApplicationComponent;
-import com.wangxin.didemo.di.ApplicationModule;
-import com.wangxin.didemo.di.DaggerApplicationComponent;
+import com.wangxin.didemo.inject.component.ApplicationComponent;
+import com.wangxin.didemo.inject.component.DaggerApplicationComponent;
+import com.wangxin.didemo.inject.module.ApplicationModule;
 
 /**
  * Created by wangxin on 16/6/13.

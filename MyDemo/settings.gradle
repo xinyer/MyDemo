@@ -1,1 +1,1 @@
-include ':app', ':rfidreader', ':icreader', ':didemo', ':takephoto'
+include ':app', ':rfidreader', ':icreader', ':inject', ':takephoto'

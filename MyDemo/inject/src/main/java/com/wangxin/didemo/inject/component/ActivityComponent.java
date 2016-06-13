@@ -1,7 +1,9 @@
-package com.wangxin.didemo.di;
+package com.wangxin.didemo.inject.component;
 
 import com.wangxin.didemo.MainActivity;
 import com.wangxin.didemo.ToastUtil;
+import com.wangxin.didemo.inject.PreActivity;
+import com.wangxin.didemo.inject.module.ActivityModule;
 
 import dagger.Component;
 

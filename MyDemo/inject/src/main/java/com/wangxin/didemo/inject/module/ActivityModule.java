@@ -1,4 +1,4 @@
-package com.wangxin.didemo.di;
+package com.wangxin.didemo.inject.module;
 
 import android.app.Activity;
 

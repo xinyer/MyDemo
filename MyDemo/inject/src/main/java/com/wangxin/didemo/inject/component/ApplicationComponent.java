@@ -1,9 +1,7 @@
-package com.wangxin.didemo.di;
-
-import android.app.Activity;
-import android.content.Context;
+package com.wangxin.didemo.inject.component;
 
 import com.wangxin.didemo.BaseApplication;
+import com.wangxin.didemo.inject.module.ApplicationModule;
 
 import javax.inject.Singleton;
 

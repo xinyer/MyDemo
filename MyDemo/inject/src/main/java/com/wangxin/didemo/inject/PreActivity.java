@@ -1,4 +1,4 @@
-package com.wangxin.didemo.di;
+package com.wangxin.didemo.inject;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

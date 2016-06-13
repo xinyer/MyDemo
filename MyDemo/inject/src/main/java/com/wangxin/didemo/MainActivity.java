@@ -3,11 +3,14 @@ package com.wangxin.didemo;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.wangxin.didemo.di.ActivityComponent;
-import com.wangxin.didemo.di.ActivityModule;
-import com.wangxin.didemo.di.DaggerActivityComponent;
+import com.wangxin.didemo.inject.component.ActivityComponent;
+import com.wangxin.didemo.inject.component.DaggerActivityComponent;
+import com.wangxin.didemo.inject.module.ActivityModule;
 
 import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends Activity {
 
@@ -24,15 +27,18 @@ public class MainActivity extends Activity {
                 .activityModule(new ActivityModule(this))
                 .build();
 
-
         this.component.injectActivity(this);
 
         setContentView(R.layout.activity_main);
+
+        ButterKnife.bind(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        toastUtil.show(this, "哈哈");
+    int index = 0;
+
+    @OnClick(R.id.btn_click)
+    public void clickme() {
+        toastUtil.show(this, "index:" + index++);
     }
+
 }
