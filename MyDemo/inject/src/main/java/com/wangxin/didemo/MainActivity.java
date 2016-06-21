@@ -3,7 +3,6 @@ package com.wangxin.didemo;
 import android.app.Activity;
 import android.os.Bundle;
 
-import com.wangxin.didemo.inject.component.ActivityComponent;
 import com.wangxin.didemo.inject.component.DaggerActivityComponent;
 import com.wangxin.didemo.inject.module.ActivityModule;
 
@@ -14,7 +13,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends Activity {
 
-    ActivityComponent component;
+//    ActivityComponent component;
 
     @Inject
     ToastUtil toastUtil;
@@ -22,17 +21,20 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.component = DaggerActivityComponent.builder()
-                .applicationComponent(((BaseApplication) getApplication()).getComponent())
-                .activityModule(new ActivityModule(this))
-                .build();
-
-        this.component.injectActivity(this);
+        initializeInject();
 
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
     }
+
+    void initializeInject() {
+        DaggerActivityComponent.builder()
+                .applicationComponent(((BaseApplication) getApplication()).getComponent())
+                .activityModule(new ActivityModule(this))
+                .build().injectActivity(this);
+    }
+
 
     int index = 0;
 

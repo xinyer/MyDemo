@@ -3,10 +3,12 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MyDemo.iml" filepath="$PROJECT_DIR$/MyDemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/animation/animation.iml" filepath="$PROJECT_DIR$/animation/animation.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/icreader/icreader.iml" filepath="$PROJECT_DIR$/icreader/icreader.iml" />
-      <module fileurl="file://$PROJECT_DIR$/inject/didemo.iml" filepath="$PROJECT_DIR$/inject/didemo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/inject/inject.iml" filepath="$PROJECT_DIR$/inject/inject.iml" />
       <module fileurl="file://$PROJECT_DIR$/rfidreader/rfidreader.iml" filepath="$PROJECT_DIR$/rfidreader/rfidreader.iml" />
+      <module fileurl="file://$PROJECT_DIR$/roundedsurfaceview/roundedsurfaceview.iml" filepath="$PROJECT_DIR$/roundedsurfaceview/roundedsurfaceview.iml" />
       <module fileurl="file://$PROJECT_DIR$/takephoto/takephoto.iml" filepath="$PROJECT_DIR$/takephoto/takephoto.iml" />
     </modules>
   </component>

@@ -17,5 +17,4 @@ public interface ApplicationComponent {
 
     BaseApplication injectApplication(BaseApplication application);
 
-
 }
