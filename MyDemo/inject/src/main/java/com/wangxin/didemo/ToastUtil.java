@@ -5,9 +5,6 @@ import android.widget.Toast;
 
 import javax.inject.Inject;
 
-/**
- * Created by wangxin on 16/6/13.
- */
 public class ToastUtil {
 
     private Toast mToast;

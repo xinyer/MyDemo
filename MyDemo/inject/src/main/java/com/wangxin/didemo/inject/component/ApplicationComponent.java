@@ -1,6 +1,6 @@
 package com.wangxin.didemo.inject.component;
 
-import com.wangxin.didemo.BaseApplication;
+import com.wangxin.didemo.AppApplication;
 import com.wangxin.didemo.inject.module.ApplicationModule;
 
 import javax.inject.Singleton;
@@ -15,6 +15,6 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    BaseApplication injectApplication(BaseApplication application);
+    AppApplication injectApplication(AppApplication application);
 
 }

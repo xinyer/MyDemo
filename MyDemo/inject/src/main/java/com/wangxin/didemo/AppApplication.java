@@ -6,10 +6,7 @@ import com.wangxin.didemo.inject.component.ApplicationComponent;
 import com.wangxin.didemo.inject.component.DaggerApplicationComponent;
 import com.wangxin.didemo.inject.module.ApplicationModule;
 
-/**
- * Created by wangxin on 16/6/13.
- */
-public class BaseApplication extends Application {
+public class AppApplication extends Application {
     private ApplicationComponent component;
 
     @Override

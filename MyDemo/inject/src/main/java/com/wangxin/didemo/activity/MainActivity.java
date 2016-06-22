@@ -1,19 +1,18 @@
-package com.wangxin.didemo;
+package com.wangxin.didemo.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 
+import com.wangxin.didemo.AppApplication;
+import com.wangxin.didemo.R;
+import com.wangxin.didemo.ToastUtil;
 import com.wangxin.didemo.inject.component.DaggerActivityComponent;
 import com.wangxin.didemo.inject.module.ActivityModule;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends Activity {
-
-//    ActivityComponent component;
+public class MainActivity extends BaseActivity {
 
     @Inject
     ToastUtil toastUtil;
@@ -22,22 +21,21 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initializeInject();
-
-        setContentView(R.layout.activity_main);
-
-        ButterKnife.bind(this);
     }
 
     void initializeInject() {
         DaggerActivityComponent.builder()
-                .applicationComponent(((BaseApplication) getApplication()).getComponent())
+                .applicationComponent(((AppApplication) getApplication()).getComponent())
                 .activityModule(new ActivityModule(this))
                 .build().injectActivity(this);
     }
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     int index = 0;
-
     @OnClick(R.id.btn_click)
     public void clickme() {
         toastUtil.show(this, "index:" + index++);
